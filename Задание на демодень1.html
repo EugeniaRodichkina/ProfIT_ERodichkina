@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Демодень</title>
+  </head>
+  <body>
+    <h1>Задание</h1>
+    <p>
+      Даны две числовые матрицы S(M, N) и T(N, L). <br />Получить третью
+      результирующую матрицу R вычитанием из каждого элемента матрицы Т
+      алгебраической суммы значений элементов соответствующего столбца матрицы
+      S. <br />Напечатать матрицу R, после чего вывести на печать все ее
+      элементы в порядке возрастания.
+    </p>
+    <h1>Вывод результатов</h1>
+  </body>
+  <script>
+    //ввод данных
+    let matrixS = [];
+    let matrixT = [];
+    let matrixR = [];
+
+    let arraySum = [];
+    let arraySort = [];
+
+    let M, N, L, inputS, inputT, len;
+    let isCorrect = true; //переменная будет использоваться для проверки на корректность введенных значений
+
+    M = +prompt('Введите натуральное число M (размерность матрицы)');
+    if (isNaN(M) || M <= 1 || !(M % 1 == 0) || M > 100) {
+      isCorrect = false;
+    } else {
+      N = +prompt('Введите натуральное число N (размерность матрицы)');
+      if (isNaN(N) || N <= 1 || !(N % 1 == 0) || N > 100) {
+        isCorrect = false;
+      } else {
+        L = +prompt('Введите натуральное число L (размерность матрицы)');
+        if (isNaN(L) || L <= 1 || !(L % 1 == 0) || L > 100) {
+          isCorrect = false;
+        }
+      }
+    }
+    if (!isCorrect) {
+      alert('Вы ввели некорректное значение. \nHачните заново');
+    } else {
+      //если пользователь ввёл некорректные значения размерностей матриц, дальнейший ввод данных не выполнится
+
+      //предоставляем возможность задать элементы матрицы S с клавиатуры либо воспользоваться рандомными значениями
+      inputS = +prompt(
+        'Введите 1 для самостоятельного ввода элементов матрицы S. \nВ ином случае матрица будет заполнена рандомными значениями от -100 до 100'
+      );
+      switch (inputS) {
+        case 1:
+          for (let i = 0; i < M; i++) {
+            matrixS[i] = [];
+            for (let j = 0; j < N; j++) {
+              matrixS[i][j] = +prompt(`Введите число`);
+              if (isNaN(matrixS[i][j])) {
+                alert('Вы ввели некорректное значение. \nHачните заново');
+                isCorrect = false;
+                M = 0;
+                N = 0;
+              }
+            }
+          }
+          break;
+        default:
+          for (let i = 0; i < M; i++) {
+            matrixS[i] = [];
+            for (let j = 0; j < N; j++) {
+              matrixS[i][j] = Math.round((0.5 - Math.random()) * 200);
+            }
+          }
+          break;
+      }
+      console.log(matrixS);
+
+      //аналогично для матрицы T
+      if (isCorrect) {
+        inputT = +prompt(
+          'Введите 1 для самостоятельного ввода элементов матрицы T. \nВ ином случае матрица будет заполнена рандомными значениями от -100 до 100'
+        );
+        switch (inputT) {
+          case 1:
+            for (let j = 0; j < N; j++) {
+              matrixT[j] = [];
+              for (let k = 0; k < L; k++) {
+                matrixT[j][k] = +prompt(`Введите число`);
+                if (isNaN(matrixT[j][k])) {
+                  alert('Вы ввели некорректное значение. \nHачните заново');
+                  isCorrect = false;
+                  L = 0;
+                  N = 0;
+                }
+              }
+            }
+            break;
+          default:
+            for (let j = 0; j < N; j++) {
+              matrixT[j] = [];
+              for (let k = 0; k < L; k++) {
+                matrixT[j][k] = Math.round((0.5 - Math.random()) * 200);
+              }
+            }
+            break;
+        }
+      }
+      console.log(matrixT);
+
+      if (isCorrect) {
+        //если элементы матриц заданы некорректно, решение задачи и вывод результатов не выполнится
+
+        //заполняем массив значениями, равными сумме элементов по каждому столбцу матрицы S
+        for (let j = 0; j < N; j++) {
+          arraySum[j] = 0;
+          for (let i = 0; i < M; i++) {
+            arraySum[j] += matrixS[i][j];
+          }
+        }
+        console.log(arraySum);
+
+        //заполняем результирующую матрицу вычитанием из каждого элемента матрицы Т суммы значений элементов соответствующего столбца матрицы S
+        //в этом же цикле передаем полученные значения в одномерный массив для дальнейшей сортировки
+        let p = 0;
+        for (let j = 0; j < N; j++) {
+          matrixR[j] = [];
+          for (let k = 0; k < L; k++) {
+            matrixR[j][k] = matrixT[j][k] - arraySum[j];
+            arraySort[p] = matrixR[j][k];
+            p++;
+          }
+        }
+
+        console.log(matrixR);
+        console.log(arraySort);
+
+        // сортируем массив, используя метод гномьей сортировки:
+        len = arraySort.length;
+        let i = 1;
+        while (i < len) {
+          if (i > 0 && arraySort[i - 1] > arraySort[i]) {
+            [arraySort[i], arraySort[i - 1]] = [arraySort[i - 1], arraySort[i]];
+            i--;
+          } else {
+            i++;
+          }
+        }
+        console.log(arraySort);
+
+        //вывод результатов
+        document.write('<h3>Матрица S</h3> <table>');
+        for (let i = 0; i < matrixS.length; i++) {
+          document.write('<tr>');
+          for (let j = 0; j < matrixS[i].length; j++) {
+            document.write('<td align="center">' + matrixS[i][j] + '</td>');
+          }
+          document.write('</tr>');
+        }
+        document.write('</table>');
+
+        document.write('<h3>Матрица T</h3> <table>');
+        for (let i = 0; i < matrixT.length; i++) {
+          document.write('<tr>');
+          for (let j = 0; j < matrixT[i].length; j++) {
+            document.write('<td align="center">' + matrixT[i][j] + '</td>');
+          }
+          document.write('</tr>');
+        }
+        document.write('</table>');
+
+        document.write('<h3>Матрица R</h3> <table>');
+        for (let i = 0; i < matrixR.length; i++) {
+          document.write('<tr>');
+          for (let j = 0; j < matrixR[i].length; j++) {
+            document.write('<td align="center">' + matrixR[i][j] + '</td>');
+          }
+          document.write('</tr>');
+        }
+        document.write('</table>');
+
+        document.write('<h3>Элементы матрицы R в порядке возрастания</h3>');
+        for (let i = 0; i < arraySort.length; i++) {
+          document.write(arraySort[i] + '&emsp;');
+        }
+      }
+    }
+  </script>
+</html>
