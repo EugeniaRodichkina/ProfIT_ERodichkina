@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Демодень Родичкина Евгения</title>
+  </head>
+  <body></body>
+  <script>
+    let nationalTeams,
+      riders,
+      N,
+      nationalRiders1,
+      nationalRiders2,
+      nationalRiders3,
+      nationalRiders4,
+      nationalRiders5,
+      nationalRiders6,
+      nationalRiders7,
+      protocolFirstRoundRiders,
+      protocolFirstRoundCountries,
+      nationalTeam1_2,
+      nationalTeam2_2,
+      nationalTeam3_2,
+      nationalTeam4_2,
+      nationalRiders1_2,
+      nationalRiders2_2,
+      nationalRiders3_2,
+      nationalRiders4_2,
+      bestNationalTeams,
+      protocolSecondRoundRiders,
+      protocolSecondRoundCountries;
+
+    class NationalTeam {
+      constructor(country) {
+        this.country = country;
+      }
+    }
+
+    class Rider extends NationalTeam {
+      constructor(number, surname, name, rating, country) {
+        super(country);
+        this.number = number;
+        this.surname = surname;
+        this.name = name;
+        this.rating = rating;
+      }
+    }
+
+    nationalTeams = [
+      (nationalTeam1 = new NationalTeam('Великобритания')),
+      (nationalTeam2 = new NationalTeam('Словакия')),
+      (nationalTeam3 = new NationalTeam('Швейцария')),
+      (nationalTeam4 = new NationalTeam('Бельгия')),
+      (nationalTeam5 = new NationalTeam('Франция')),
+      (nationalTeam6 = new NationalTeam('Чехия')),
+      (nationalTeam7 = new NationalTeam('Россия')),
+    ];
+
+    riders = [
+      (rider01 = new Rider(01, 'Хейтер', 'Итан', 0, nationalTeam1.country)),
+      (rider02 = new Rider(02, 'Денни', 'Чарльз', 0, nationalTeam1.country)),
+      (rider03 = new Rider(03, 'Туэйтес', 'Скотт', 0, nationalTeam1.country)),
+      (rider04 = new Rider(04, 'Йейтс', 'Саймон', 0, nationalTeam1.country)),
+      (rider05 = new Rider(05, 'Башка', 'Эрик', 0, nationalTeam2.country)),
+      (rider06 = new Rider(06, 'Коларж', 'Михаэль', 0, nationalTeam2.country)),
+      (rider07 = new Rider(07, 'Велиц', 'Мартин', 0, nationalTeam2.country)),
+      (rider08 = new Rider(08, 'Саган', 'Юрай', 0, nationalTeam2.country)),
+      (rider09 = new Rider(
+        09,
+        'Бадилатти',
+        'Маттео',
+        0,
+        nationalTeam3.country
+      )),
+      (rider10 = new Rider(10, 'Раст', 'Грегори', 0, nationalTeam3.country)),
+      (rider11 = new Rider(11, 'Шеллинг', 'Патрик', 0, nationalTeam3.country)),
+      (rider12 = new Rider(
+        12,
+        'Саккомани',
+        'Альфред',
+        0,
+        nationalTeam3.country
+      )),
+      (rider13 = new Rider(13, 'де Вале', 'Морис', 0, nationalTeam4.country)),
+      (rider14 = new Rider(14, 'Геритс', 'Крис', 0, nationalTeam4.country)),
+      (rider15 = new Rider(15, 'Влиген', 'Лоик', 0, nationalTeam4.country)),
+      (rider16 = new Rider(
+        16,
+        'Ван Стенберген',
+        'Рик',
+        0,
+        nationalTeam4.country
+      )),
+      (rider17 = new Rider(17, 'Жер', 'Арно', 0, nationalTeam5.country)),
+      (rider18 = new Rider(18, 'Булар', 'Жан-Пьер', 0, nationalTeam5.country)),
+      (rider19 = new Rider(19, 'Дегранж', 'Анри', 0, nationalTeam5.country)),
+      (rider20 = new Rider(20, 'Робик', 'Жан', 0, nationalTeam5.country)),
+      (rider21 = new Rider(21, 'Ян', 'Барта', 0, nationalTeam6.country)),
+      (rider22 = new Rider(22, 'Черны', 'Йосеф', 0, nationalTeam6.country)),
+      (rider23 = new Rider(23, 'Кулхави', 'Ярослав', 0, nationalTeam6.country)),
+      (rider24 = new Rider(24, 'Штыбар', 'Зденек', 0, nationalTeam6.country)),
+      (rider25 = new Rider(
+        25,
+        'Рыбалкин',
+        'Алексей',
+        0,
+        nationalTeam7.country
+      )),
+      (rider26 = new Rider(
+        26,
+        'Ильченко',
+        'Владимир',
+        0,
+        nationalTeam7.country
+      )),
+      (rider27 = new Rider(27, 'Крицкий', 'Тимофей', 0, nationalTeam7.country)),
+      (rider28 = new Rider(
+        28,
+        'Миронов',
+        'Александр',
+        0,
+        nationalTeam7.country
+      )),
+    ];
+
+    // рандомная генерация времени прохождения этапа для гонщика
+    function getTime() {
+      let time = Number((10 - Math.random() * 3).toFixed(2));
+      return time;
+    }
+
+    // сортировка двумерного массива по индексу
+    function sortArr(arr, i) {
+      arr = arr.sort(function (a, b) {
+        return a[i] - b[i];
+      });
+    }
+
+    // сортировка массива объектов по свойству и индексу
+    function sortObj(objArr, key, i) {
+      objArr.sort(function (a, b) {
+        if (a[key][i] > b[key][i]) return 1;
+        else if (a[key][i] < b[key][i]) return -1;
+        else return 0;
+      });
+    }
+
+    // создание массива гонщиков по заданной стране
+    function getNationalRiders(nationalTeam) {
+      let nationalRiders = riders.filter(
+        (rider) => rider.country == nationalTeam.country
+      );
+      return nationalRiders;
+    }
+
+    // заезд на круг с генерацией результатов прохождения этапов круга
+    function goRide(round) {
+      alert(`Начинаем заезд на ${round}-й круг!`);
+      switch (round) {
+        case 1:
+          N = +prompt(
+            'Введите количество этапов на первом круге (целое число от 2 до 10)'
+          );
+          if (isNaN(N) || N <= 1 || !(N % 1 == 0) || N > 10) {
+            alert('Так ничего не получится, введите значение заново');
+            document.location.reload();
+          } else {
+            key = 'timeFirstRound';
+            break;
+          }
+        case 2:
+          N = 2;
+          key = 'timeSecondRound';
+          break;
+      }
+      let resultsRoundRiders = []; // двумерный массив с результатами всех гонщиков по этапам круга
+      for (let i = 0; i < riders.length; i++) {
+        resultsRoundRiders[i] = [];
+        let timeRound = 0;
+        for (let j = 0; j < N; j++) {
+          resultsRoundRiders[i][j] = getTime();
+          timeRound += resultsRoundRiders[i][j];
+          resultsRoundRiders[i].push(Number(timeRound.toFixed(2)));
+        }
+        riders[i][key] = resultsRoundRiders[i]; // массив с результатами каждого гонщика добавили в объект "гонщик" в качестве нового свойства
+      }
+    }
+
+    // создание протокола гонщиков по заданному кругу
+    function getProtocolRiders(round) {
+      let protocolRiders = [];
+      for (let i = 0; i < riders.length; i++) {
+        protocolRiders[i] = [];
+        for (let j = 0; j < 1; j++) {
+          switch (round) {
+            case 1:
+              protocolRiders[i].push(
+                riders[i].name,
+                riders[i].surname,
+                riders[i].country,
+                riders[i].timeFirstRound[N],
+                riders[i].rating
+              );
+              break;
+            case 2:
+              protocolRiders[i].push(
+                riders[i].name,
+                riders[i].surname,
+                riders[i].country,
+                riders[i].timeSecondRound[2],
+                riders[i].rating
+              );
+              break; // данные для протокола берем из свойства объекта "гонщик"
+          }
+        }
+      }
+      return protocolRiders;
+    }
+
+    // поиск худшего результата по каждому этапу первого круга для страны
+    function getWorstTime(nationalRiders, nationalTeam) {
+      let midResults = []; // вспомогательный массив для обработки результатов этапов
+      for (let rider of nationalRiders) {
+        midResults.push(rider.timeFirstRound);
+      }
+      let resultsStagesFirstRoundCountries = []; // итоговый массив для хранения результатов этапов
+      for (let j = 0; j <= N; j++) {
+        resultsStagesFirstRoundCountries[j] = [];
+        for (let i = 0; i < midResults.length; i++) {
+          resultsStagesFirstRoundCountries[j][i] = midResults[i][j];
+        }
+      }
+      let nationalWorstTimeStage = []; // массив для хранения худших результатов страны на этапах
+      let worstResultStage;
+      for (let i = 0; i < resultsStagesFirstRoundCountries.length; i++) {
+        // ищем худший результат
+        for (let j = 1; j < N; j++) {
+          worstResultStage = Math.max.apply(
+            null,
+            resultsStagesFirstRoundCountries[i]
+          );
+        }
+        nationalWorstTimeStage.push(worstResultStage);
+        nationalTeam.worstTimeStage = nationalWorstTimeStage; // массив с худшими результатами добавили в качестве нового свойства в объект "страна"
+      }
+      return nationalWorstTimeStage;
+    }
+
+    // поиск лучшего результата по каждому этапу второго круга для страны
+    function getBestTime(nationalRiders, nationalTeam) {
+      let midResults = []; // вспомогательный массив для обработки результатов этапов
+      for (let rider of nationalRiders) {
+        midResults.push(rider.timeSecondRound);
+      }
+      let resultsStagesSecondRoundCountries = []; // итоговый массив для хранения результатов этапов
+      for (let j = 0; j <= N; j++) {
+        resultsStagesSecondRoundCountries[j] = [];
+        for (let i = 0; i < midResults.length; i++) {
+          resultsStagesSecondRoundCountries[j][i] = midResults[i][j];
+        }
+      }
+      let nationalBestTimeStage = []; // массив для хранения лучших результатов страны на этапах
+      let BestResultStage;
+      for (let i = 0; i < resultsStagesSecondRoundCountries.length; i++) {
+        // ищем лучший результат
+        for (let j = 1; j < 2; j++) {
+          BestResultStage = Math.min.apply(
+            null,
+            resultsStagesSecondRoundCountries[i]
+          );
+        }
+        nationalBestTimeStage.push(BestResultStage);
+        nationalTeam.bestTimeStage = nationalBestTimeStage; // массив с лучшими результатами добавили в качестве нового свойства в объект "страна"
+      }
+      return nationalBestTimeStage;
+    }
+
+    // создание протокола стран по этапам заданного круга
+    function getProtocolStage(stage, round) {
+      switch (round) {
+        case 1:
+          key1 = 'worstTimeStage';
+          break;
+        case 2:
+          key1 = 'bestTimeStage';
+          break;
+      }
+      let protocolStage = [];
+      for (let i = 0; i < nationalTeams.length; i++) {
+        protocolStage[i] = [];
+        for (let j = stage - 1; j < stage; j++) {
+          protocolStage[i].push(nationalTeams[i].country);
+          protocolStage[i].push(nationalTeams[i][key1][j]);
+        } // данные для протокола берем из свойства объекта "страна"
+      }
+      sortArr(protocolStage, 1);
+      for (let i = 0; i < protocolStage.length; i++) {
+        protocolStage[i].push(i + 1);
+      }
+      return protocolStage;
+    }
+
+    // создание протокола стран по заданному кругу
+    function getProtocolRound(round) {
+      switch (round) {
+        case 1:
+          key = 'ratingFirstRound';
+          break;
+        case 2:
+          key = 'ratingSecondRound';
+          break;
+      }
+      let protocolRound = [];
+      for (let i = 0; i < nationalTeams.length; i++) {
+        protocolRound[i] = [];
+        protocolRound[i].push(
+          nationalTeams[i].country,
+          nationalTeams[i][key][0], // данные для протокола берем из свойства объекта "страна"
+          i + 1
+        );
+      }
+      return protocolRound;
+    }
+
+    // добавление к объекту "страна" рейтинга по этапам заданного круга
+    function getStageResults(stage, round) {
+      switch (round) {
+        case 1:
+          key = 'ratingsStagesFirstRound';
+          break;
+        case 2:
+          key = 'ratingsStagesSecondRound';
+          break;
+      }
+      for (let i = 0; i < getProtocolStage(stage, round).length; i++) {
+        for (let nationalTeam of nationalTeams) {
+          if (getProtocolStage(stage, round)[i][0] == nationalTeam.country) {
+            nationalTeam[key].push(getProtocolStage(stage, round)[i][2]);
+          }
+        }
+      }
+    }
+
+    // получение итогового места страны по заданному кругу
+    function getRatingSum(round) {
+      switch (round) {
+        case 1:
+          key2 = 'ratingsStagesFirstRound';
+          key3 = 'ratingFirstRound';
+          break;
+        case 2:
+          key2 = 'ratingsStagesSecondRound';
+          key3 = 'ratingSecondRound';
+          break;
+      }
+      for (let nationalTeam of nationalTeams) {
+        let ratingSum = 0;
+        for (let i = 0; i < nationalTeam[key2].length; i++) {
+          ratingSum += nationalTeam[key2][i]; // вычислили сумму мест, занятых страной на этапах
+        }
+        nationalTeam[key3].push(ratingSum); // внесли итоговое значение в свойство объекта "страна"
+      }
+    }
+
+    alert(
+      'Добро пожаловать на международные соревнования по велоспорту! \nОткройте консоль)'
+    );
+
+    console.log(nationalTeams);
+    console.log(riders);
+
+    nationalRiders1 = getNationalRiders(nationalTeam1);
+    nationalRiders2 = getNationalRiders(nationalTeam2);
+    nationalRiders3 = getNationalRiders(nationalTeam3);
+    nationalRiders4 = getNationalRiders(nationalTeam4);
+    nationalRiders5 = getNationalRiders(nationalTeam5);
+    nationalRiders6 = getNationalRiders(nationalTeam6);
+    nationalRiders7 = getNationalRiders(nationalTeam7);
+
+    goRide(1);
+
+    sortObj(riders, 'timeFirstRound', N);
+
+    for (let i = 0; i < riders.length; i++) {
+      riders[i].rating = i + 1; // обновили свойство "рейтинг" объекта "гонщик" после первого круга
+    }
+
+    protocolFirstRoundRiders = getProtocolRiders(1);
+    console.log(`\nПротокол по гонщикам после 1 круга: `);
+    console.table(protocolFirstRoundRiders);
+
+    getWorstTime(nationalRiders1, nationalTeam1);
+    getWorstTime(nationalRiders2, nationalTeam2);
+    getWorstTime(nationalRiders3, nationalTeam3);
+    getWorstTime(nationalRiders4, nationalTeam4);
+    getWorstTime(nationalRiders5, nationalTeam5);
+    getWorstTime(nationalRiders6, nationalTeam6);
+    getWorstTime(nationalRiders7, nationalTeam7);
+
+    for (let nationalTeam of nationalTeams) {
+      nationalTeam.ratingsStagesFirstRound = [];
+      nationalTeam.ratingFirstRound = [];
+      nationalTeam.ratingsStagesSecondRound = [];
+      nationalTeam.ratingSecondRound = [];
+    } // добавили новые свойства к объекту "страна" для последующего внесения данных
+
+    for (let i = 1; i <= N; i++) {
+      console.log(`\nПротокол по странам за ${i}-й этап 1 круга: `);
+      console.table(getProtocolStage(i, 1));
+      getStageResults(i, 1);
+    }
+
+    getRatingSum(1);
+
+    sortObj(nationalTeams, 'ratingFirstRound', 0);
+
+    protocolFirstRoundCountries = getProtocolRound(1);
+    console.log(`\nПротокол по странам за 1 круг: `);
+    console.table(protocolFirstRoundCountries);
+
+    nationalTeams = nationalTeams.slice(0, 4); // обновляем массив стран-участников
+
+    nationalTeam1_2 = nationalTeams[0];
+    nationalTeam2_2 = nationalTeams[1];
+    nationalTeam3_2 = nationalTeams[2];
+    nationalTeam4_2 = nationalTeams[3];
+
+    nationalRiders1_2 = getNationalRiders(nationalTeam1_2);
+    nationalRiders2_2 = getNationalRiders(nationalTeam2_2);
+    nationalRiders3_2 = getNationalRiders(nationalTeam3_2);
+    nationalRiders4_2 = getNationalRiders(nationalTeam4_2);
+
+    bestNationalTeams = [];
+    for (let nationalTeam of nationalTeams) {
+      bestNationalTeams.push(' ' + nationalTeam.country);
+    }
+
+    alert(`Во 2-й круг проходят:${bestNationalTeams}`);
+
+    riders = riders.filter(
+      // обновляем массив гонщиков-участников
+      (rider) =>
+        rider.country == nationalTeams[0].country ||
+        rider.country == nationalTeams[1].country ||
+        rider.country == nationalTeams[2].country ||
+        rider.country == nationalTeams[3].country
+    );
+
+    goRide(2);
+
+    sortObj(riders, 'timeSecondRound', 2);
+
+    for (let i = 0; i < riders.length; i++) {
+      riders[i].rating = i + 1; // обновили свойство "рейтинг" объекта "гонщик" после второго круга
+    }
+
+    protocolSecondRoundRiders = getProtocolRiders(2);
+    console.log(`\nПротокол по гонщикам после 2 круга: `);
+    console.table(protocolSecondRoundRiders);
+
+    getBestTime(nationalRiders1_2, nationalTeam1_2);
+    getBestTime(nationalRiders2_2, nationalTeam2_2);
+    getBestTime(nationalRiders3_2, nationalTeam3_2);
+    getBestTime(nationalRiders4_2, nationalTeam4_2);
+
+    for (let i = 1; i <= 2; i++) {
+      console.log(`\nПротокол по странам за ${i}-й этап 2 круга: `);
+      console.table(getProtocolStage(i, 2));
+      getStageResults(i, 2);
+    }
+
+    getRatingSum(2);
+
+    sortObj(nationalTeams, 'ratingSecondRound', 0);
+
+    protocolSecondRoundCountries = getProtocolRound(2);
+    console.log(`\nПротокол по странам за 2 круг: `);
+    console.table(protocolSecondRoundCountries);
+
+    alert(`Победитель гонки: ${protocolSecondRoundCountries[0][0]}, ура!`);
+  </script>
+</html>
